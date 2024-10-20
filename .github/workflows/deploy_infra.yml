@@ -7,22 +7,21 @@ on:
   push:
     branches:
       - 'main'
+  workflow_dispatch:
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  WORKING_DIR: ./staticwebsite
       
 jobs:
-  terraform:
+  deploy_dev:
     runs-on: ubuntu-latest
-    
-    name: 'deploy infrastructure'
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      WORKING_DIR: ./
-      
     steps:
-      # Step 1: Check out the repository to the runner
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
 
       # Step 2: Install Terraform
       - name: Install Terraform
@@ -36,14 +35,68 @@ jobs:
         run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
       
-      # Step 4: Generate a plan for Terraform changes
-      - name: Terraform plan
-        id: plan
-        run: terraform plan
+      # Step 4: Select or create the dev workspace
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select dev || terraform workspace new dev
+        working-directory: ${{ env.WORKING_DIR }}
+      # Step 5: Apply Terraform changes
+      - name: Terraform apply dev
+        id: apply
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+  deploy_stage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      # Step 2: Install Terraform
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6  # Specify the desired version of Terraform
+
+      # Step 3: Initialize Terraform
+      - name: Terraform init
+        id: init
+        run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
       
+      # Step 4: Select or create the stage workspace
+      - name: Terraform workspace select or create stage
+        run: terraform workspace select stage || terraform workspace new stage
+        working-directory: ${{ env.WORKING_DIR }}
       # Step 5: Apply Terraform changes
-      - name: Terraform apply
+      - name: Terraform apply stage
+        id: apply
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      # Step 2: Install Terraform
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6  # Specify the desired version of Terraform
+
+      # Step 3: Initialize Terraform
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      # Step 4: Select or create the prod workspace
+      - name: Terraform workspace select or create prod
+        run: terraform workspace select prod || terraform workspace new prod
+        working-directory: ${{ env.WORKING_DIR }}
+      # Step 5: Apply Terraform changes
+      - name: Terraform apply prod
         id: apply
         run: terraform apply -auto-approve
         working-directory: ${{ env.WORKING_DIR }}
