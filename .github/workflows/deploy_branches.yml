@@ -6,13 +6,15 @@ on:
     paths-ignore:
       - '.github/workflows/**'
     branches-ignore:
-      - 'main'
+      - 'main'  # Ignore pushes to main, but not for PRs
 
   pull_request:
+    branches:
+      - 'main'  # Trigger on PRs merged into main
+    types: [closed]  # Only trigger when a PR is closed (merged)
     paths-ignore:
       - '.github/workflows/**'
-    branches-ignore:
-      - 'main'
+  workflow_dispatch:
 
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
