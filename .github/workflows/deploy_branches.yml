@@ -1,0 +1,87 @@
+name: Deploy branch-specific infrastructure
+
+# Trigger on push to any branch other than main
+on:
+  push:
+    paths-ignore:
+      - '.github/workflows/**'
+    branches-ignore:
+      - 'main'
+
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/**'
+    branches-ignore:
+      - 'main'
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  WORKING_DIR: ./
+      
+jobs:
+  deploy_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      # Step 2: Install Terraform
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6  # Specify the desired version of Terraform
+
+      # Step 3: Initialize Terraform
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      # Step 4: Select or create the branch-specific workspace
+      - name: Terraform workspace select or create
+        run: terraform workspace select dev-${{ github.ref_name }} || terraform workspace new dev-${{ github.ref_name }}
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      # Step 5: Apply Terraform changes for branch-specific environment
+      - name: Terraform apply branch
+        id: apply
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+  destroy_on_merge:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      # Step 2: Install Terraform
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6  # Specify the desired version of Terraform
+
+      # Step 3: Initialize Terraform
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+
+      # Step 4: Select the branch workspace
+      - name: Terraform workspace select branch
+        run: terraform workspace select dev-${{ github.head_ref }}
+        working-directory: ${{ env.WORKING_DIR }}
+      
+      # Step 5: Destroy Terraform environment for the merged branch
+      - name: Terraform destroy
+        id: destroy
+        run: terraform destroy -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      # Step 6: Delete the Terraform workspace after destruction
+      - name: Terraform workspace delete branch
+        run: terraform workspace delete dev-${{ github.head_ref }}
+        working-directory: ${{ env.WORKING_DIR }}
