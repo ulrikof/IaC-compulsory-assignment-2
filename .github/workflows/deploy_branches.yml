@@ -3,10 +3,14 @@ name: Deploy branch-specific infrastructure
 # Trigger on push to any branch other than main
 on:
   push:
+    paths-ignore:
+      - '.github/workflows/**'
     branches-ignore:
       - 'main'
 
   pull_request:
+    paths-ignore:
+      - '.github/workflows/**'
     branches-ignore:
       - 'main'
 
