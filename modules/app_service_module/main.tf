@@ -19,7 +19,7 @@ resource "azurerm_linux_web_app" "web_app" {
     account_name = var.sa_name
     share_name   = var.sc_name
     access_key   = var.sa_access_key
-    type         = "Blob"
+    type         = "AzureBlob"
   }
 
   connection_string {
