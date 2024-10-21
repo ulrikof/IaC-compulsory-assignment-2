@@ -1,24 +1,18 @@
-resource "azurerm_app_service_plan" "service_plan_01" {
+resource "azurerm_service_plan" "service_plan_01" {
   name                = var.service_plan_name
   location            = var.location
   resource_group_name = var.rg_name
-
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
+  os_type             = "Linux"
+  sku_name            = "P1v2"
 }
 
-resource "azurerm_app_service" "app_service_01" {
+resource "azurerm_linux_web_app" "web_app" {
   name                = var.app_service_name
   location            = var.location
   resource_group_name = var.rg_name
-  app_service_plan_id = azurerm_app_service_plan.service_plan_01.id
+  service_plan_id     = azurerm_service_plan.service_plan_01.id
 
-  site_config {
-    dotnet_framework_version = "v4.0"
-    scm_type                 = "LocalGit"
-  }
+  site_config {}
 
   storage_account {
     name         = "sa_01"
