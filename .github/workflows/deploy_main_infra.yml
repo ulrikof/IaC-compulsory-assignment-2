@@ -1,7 +1,14 @@
-name: Destroy infrastructure
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy infrastructure
 
 # Controls when the workflow will run
 on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/workflows/**"
   workflow_dispatch:
 
 env:
@@ -10,9 +17,9 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   WORKING_DIR: ./
-      
+
 jobs:
-  destroy_dev:
+  deploy_dev:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,26 +29,25 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6  
+          terraform_version: 1.9.8
 
       # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
-      
-      # Step 4: Select the dev workspace
-      - name: Terraform workspace select dev
-        run: terraform workspace select dev
+
+      # Step 4: Select or create the dev workspace
+      - name: Terraform workspace select or create dev
+        run: terraform workspace select -or-create dev
+        working-directory: ${{ env.WORKING_DIR }}
+      # Step 5: Apply Terraform changes
+      - name: Terraform apply dev
+        id: apply
+        run: terraform apply -auto-approve
         working-directory: ${{ env.WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
-      - name: Terraform destroy dev
-        id: destroy
-        run: terraform destroy -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
-
-  destroy_stage:
+  deploy_stage:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,26 +57,25 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6  
+          terraform_version: 1.5.6 # Specify the desired version of Terraform
 
       # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
-      
-      # Step 4: Select the stage workspace
-      - name: Terraform workspace select stage
-        run: terraform workspace select stage
+
+      # Step 4: Select or create the stage workspace
+      - name: Terraform workspace select or create stage
+        run: terraform workspace select -or-create stage
+        working-directory: ${{ env.WORKING_DIR }}
+      # Step 5: Apply Terraform changes
+      - name: Terraform apply stage
+        id: apply
+        run: terraform apply -auto-approve
         working-directory: ${{ env.WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
-      - name: Terraform destroy stage
-        id: destroy
-        run: terraform destroy -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
-
-  destroy_prod:
+  deploy_prod:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -80,21 +85,20 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6 
+          terraform_version: 1.5.6 # Specify the desired version of Terraform
 
       # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
-      
-      # Step 4: Select the prod workspace
-      - name: Terraform workspace select prod
-        run: terraform workspace select prod
-        working-directory: ${{ env.WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
-      - name: Terraform destroy prod
-        id: destroy
-        run: terraform destroy -auto-approve
+      # Step 4: Select or create the prod workspace
+      - name: Terraform workspace select or create prod
+        run: terraform workspace select -or-create prod
+        working-directory: ${{ env.WORKING_DIR }}
+      # Step 5: Apply Terraform changes
+      - name: Terraform apply prod
+        id: apply
+        run: terraform apply -auto-approve
         working-directory: ${{ env.WORKING_DIR }}

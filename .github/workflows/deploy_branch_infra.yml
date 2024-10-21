@@ -1,0 +1,41 @@
+name: Deploy branch infrastructure
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+    paths-ignore:
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  WORKING_DIR: ./
+
+jobs:
+  deploy_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.9.8
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform workspace select or create
+        run: terraform workspace select -or-create dev-${{ github.ref_name }}
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
