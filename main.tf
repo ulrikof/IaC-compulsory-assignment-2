@@ -12,3 +12,11 @@ module "virtual_network_module" {
   address_prefixes = ["10.0.0.0/16"]
   address_space    = ["10.0.2.0/24"]
 }
+
+module "database_module" {
+  source          = "./modules/database_module"
+  rg_name         = azurerm_resource_group.uo_rg_root.name
+  location        = azurerm_resource_group.uo_rg_root.location
+  sql_server_name = "uo-sql-server-1"
+  db_name         = "uo-db-1"
+}
