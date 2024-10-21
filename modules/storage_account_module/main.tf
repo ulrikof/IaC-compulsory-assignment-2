@@ -16,8 +16,8 @@ resource "random_string" "random_string" {
 
 resource "azurerm_storage_account" "sa_01" {
   name                     = "${lower(var.sa_01_base_name)}${random_string.random_string.result}"
-  resource_group_name      = var.location
-  location                 = var.rg_name
+  resource_group_name      = var.rg_name
+  location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
