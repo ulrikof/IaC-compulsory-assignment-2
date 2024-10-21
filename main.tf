@@ -26,5 +26,5 @@ module "storage_account_module" {
   rg_name         = azurerm_resource_group.uo_rg_root.name
   location        = azurerm_resource_group.uo_rg_root.location
   sa_01_base_name = "uo1sa01"
-  sc_01_name      = "uo_sc_01"
+  sc_01_name      = "uo-sc-01"
 }
