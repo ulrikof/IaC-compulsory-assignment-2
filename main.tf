@@ -22,9 +22,20 @@ module "database_module" {
 }
 
 module "storage_account_module" {
-  source          = "./modules/storage_account_module"
-  rg_name         = azurerm_resource_group.uo_rg_root.name
-  location        = azurerm_resource_group.uo_rg_root.location
-  sa_01_base_name = "uo1sa01"
-  sc_01_name      = "uo-sc-01"
+  source       = "./modules/storage_account_module"
+  rg_name      = azurerm_resource_group.uo_rg_root.name
+  location     = azurerm_resource_group.uo_rg_root.location
+  sa_base_name = "uo1sa01"
+  sc_name      = "uo-sc-01"
+}
+
+module "app_service_module" {
+  source            = "./modules/app_service_module"
+  rg_name           = azurerm_resource_group.uo_rg_root.name
+  location          = azurerm_resource_group.uo_rg_root.location
+  service_plan_name = "service_plan_01"
+  app_service_name  = "app_service_01"
+  sa_name           = module.storage_account_module.sa_name
+  sa_access_key     = module.storage_account_module.sa_access_key
+  sc_name           = module.storage_account_module.sc_name
 }
