@@ -20,3 +20,11 @@ module "database_module" {
   sql_server_name = local.sql_server_name
   db_name         = local.db_name
 }
+
+module "storage_account_module" {
+  source          = "./modules/storage_account_module"
+  rg_name         = azurerm_resource_group.uo_rg_root.name
+  location        = azurerm_resource_group.uo_rg_root.location
+  sa_01_base_name = "uo1sa01"
+  sc_01_name      = "uo_sc_01"
+}
