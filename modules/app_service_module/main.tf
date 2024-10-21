@@ -1,3 +1,18 @@
+terraform {
+  required_providers {
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.3"
+    }
+  }
+}
+
+# Random string used added to the name of sa_01 to make a valid name
+resource "random_string" "random_string" {
+  length  = 20
+  special = false
+}
+
 resource "azurerm_service_plan" "service_plan_01" {
   name                = var.service_plan_name
   location            = var.location
@@ -7,7 +22,7 @@ resource "azurerm_service_plan" "service_plan_01" {
 }
 
 resource "azurerm_linux_web_app" "web_app" {
-  name                = var.app_service_name
+  name                = "${var.app_service_name}${random_string.random_string.value}"
   location            = var.location
   resource_group_name = var.rg_name
   service_plan_id     = azurerm_service_plan.service_plan_01.id
