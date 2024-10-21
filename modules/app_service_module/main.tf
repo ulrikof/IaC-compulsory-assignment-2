@@ -22,7 +22,7 @@ resource "azurerm_service_plan" "service_plan_01" {
 }
 
 resource "azurerm_linux_web_app" "web_app" {
-  name                = "${var.app_service_name}${random_string.random_string.value}"
+  name                = "${var.app_service_name}${random_string.random_string.result}"
   location            = var.location
   resource_group_name = var.rg_name
   service_plan_id     = azurerm_service_plan.service_plan_01.id
