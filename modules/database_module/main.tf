@@ -1,5 +1,5 @@
 resource "azurerm_mssql_server" "sql_server_1" {
-  name                         = var.sql_server_name
+  name                         = lower(var.sql_server_name)
   resource_group_name          = var.rg_name
   location                     = var.location
   version                      = "12.0"
@@ -8,7 +8,7 @@ resource "azurerm_mssql_server" "sql_server_1" {
 }
 
 resource "azurerm_mssql_database" "sql_database" {
-  name         = var.db_name
+  name         = lower(var.db_name)
   server_id    = azurerm_mssql_server.sql_server_1.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"

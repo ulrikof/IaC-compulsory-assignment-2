@@ -16,7 +16,15 @@ env:
   WORKING_DIR: ./
 
 jobs:
+  lint:
+    uses: ./.github/workflows/terraform_lint.yml # Call the reusable lint workflow
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   deploy_branch:
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
