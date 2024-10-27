@@ -2,11 +2,6 @@ name: Terraform validate and format check
 
 on:
   workflow_call: # Makes the workflow reusable
-    secrets:
-      AZURE_CLIENT_ID: {}
-      AZURE_CLIENT_SECRET: {}
-      AZURE_SUBSCRIPTION_ID: {}
-      AZURE_TENANT_ID: {}
 
 jobs:
   lint:
