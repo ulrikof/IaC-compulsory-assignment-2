@@ -6,6 +6,10 @@ on:
       - "main"
     paths-ignore:
       - ".github/workflows/**"
+  workflow_run:
+    workflows: ["Terraform validate and format check"]
+    types:
+      - completed
   workflow_dispatch:
 
 env:
