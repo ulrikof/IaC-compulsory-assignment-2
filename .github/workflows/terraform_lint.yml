@@ -1,13 +1,7 @@
 name: Terraform validate and format check
 
-# Trigger on every push and pull request to all branches
 on:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches:
-      - "**"
+  workflow_call: # Makes the workflow reusable
 
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}

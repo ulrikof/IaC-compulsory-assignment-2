@@ -6,10 +6,6 @@ on:
       - "main"
     paths-ignore:
       - ".github/workflows/**"
-  workflow_run:
-    workflows: ["Terraform validate and format check"]
-    types:
-      - completed
   workflow_dispatch:
 
 env:
@@ -20,6 +16,8 @@ env:
   WORKING_DIR: ./
 
 jobs:
+  lint:
+    uses: ./.github/workflows/terraform_lint.yml # Call the reusable lint workflow
   deploy_branch:
     runs-on: ubuntu-latest
     steps:
