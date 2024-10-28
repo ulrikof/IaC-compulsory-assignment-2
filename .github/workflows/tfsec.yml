@@ -1,0 +1,18 @@
+name: Terraform Security Check
+
+on:
+  workflow_call: # Make the workflow callable by other workflows
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    name: "Security Check"
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under so your job can access it
+      - uses: actions/checkout@master
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          # Space separated args specified here will be added during tfsec execution.
+          additional_args: -m CRITICAL
