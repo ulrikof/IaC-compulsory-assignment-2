@@ -27,7 +27,14 @@ resource "azurerm_linux_web_app" "web_app" {
   resource_group_name = var.rg_name
   service_plan_id     = azurerm_service_plan.service_plan_01.id
 
-  site_config {}
+  site_config {
+
+    application_stack {
+      docker_image_name   = "appsvc/staticsite:latest" # Example image for static site
+      docker_registry_url = "https://index.docker.io"
+    }
+
+  }
 
   storage_account {
     name         = "sa_01"
@@ -42,4 +49,8 @@ resource "azurerm_linux_web_app" "web_app" {
     type  = "SQLAzure"
     value = "Server=some-server.mydomain.com;Integrated Security=SSPI"
   }
+
+  virtual_network_subnet_id = var.subnet_id
+
+
 }

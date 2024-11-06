@@ -38,4 +38,5 @@ module "app_service_module" {
   sa_name           = module.storage_account_module.sa_name
   sa_access_key     = module.storage_account_module.sa_access_key
   sc_name           = module.storage_account_module.sc_name
+  subnet_id         = module.virtual_network_module.subnet_id
 }
