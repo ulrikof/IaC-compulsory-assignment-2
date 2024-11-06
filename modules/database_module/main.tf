@@ -2,7 +2,7 @@ locals {
   sanitized_sql_server_name = substr(
     regex_replace(
       lower(var.sql_server_name),
-      "[^0-9a-z-]",                 # Replace any character not allowed with a hyphen
+      "[^0-9a-z-]", # Replace any character not allowed with a hyphen
       "-"
     ),
     0,
