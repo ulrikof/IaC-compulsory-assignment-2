@@ -34,10 +34,4 @@ module "app_service_module" {
   rg_name           = azurerm_resource_group.uo_rg_root.name
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
-  app_service_name  = "app1"
-  sa_name           = module.storage_account_module.sa_name
-  sa_access_key     = module.storage_account_module.sa_access_key
-  sc_name           = module.storage_account_module.sc_name
-  sb_index_name     = module.storage_account_module.sb_index_name
-  subnet_id         = module.virtual_network_module.subnet_id
 }

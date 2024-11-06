@@ -28,25 +28,3 @@ resource "azurerm_storage_container" "sc" {
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
-
-resource "azurerm_storage_blob" "html_blob" {
-  name                   = "index.html"
-  storage_account_name   = azurerm_storage_account.sa.name
-  storage_container_name = azurerm_storage_container.sc.name
-  type                   = "Block"
-  content_type           = "text/html"
-  source_content         = <<-EOT
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Static Web Page</title>
-    </head>
-    <body>
-      <h1>Welcome to My Static Web Page!</h1>
-      <p>This is a simple static page hosted on Azure Blob Storage and served through App Service.</p>
-    </body>
-    </html>
-  EOT
-}
