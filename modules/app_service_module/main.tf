@@ -50,7 +50,7 @@ resource "azurerm_linux_web_app" "web_app" {
     value = "Server=some-server.mydomain.com;Integrated Security=SSPI"
   }
 
-  virtual_network_subnet_id = var.subnet_id
+  #virtual_network_subnet_id = var.subnet_id
 
 
 }
