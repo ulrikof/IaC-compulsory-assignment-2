@@ -3,10 +3,10 @@ locals {
     trim(
       replace(replace(replace(
         lower(var.sql_server_name),
-        "_", "-"),                # Replace underscores with hyphens
-        ".", "-"),                # Replace dots with hyphens
-        " ", "-"),                # Replace spaces with hyphens
-      "-"),                       # Trim hyphens from start and end
+        "_", "-"), # Replace underscores with hyphens
+        ".", "-"), # Replace dots with hyphens
+      " ", "-"),   # Replace spaces with hyphens
+    "-"),          # Trim hyphens from start and end
     0,
     63
   )
