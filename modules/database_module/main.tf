@@ -1,5 +1,19 @@
+locals {
+  sanitized_sql_server_name = substr(
+    trim(
+      replace(replace(replace(
+        lower(var.sql_server_name),
+        "_", "-"), # Replace underscores with hyphens
+        ".", "-"), # Replace dots with hyphens
+      " ", "-"),   # Replace spaces with hyphens
+    "-"),          # Trim hyphens from start and end
+    0,
+    63
+  )
+}
+
 resource "azurerm_mssql_server" "sql_server_1" {
-  name                         = lower(var.sql_server_name)
+  name                         = local.sanitized_sql_server_name
   resource_group_name          = var.rg_name
   location                     = var.location
   version                      = "12.0"
