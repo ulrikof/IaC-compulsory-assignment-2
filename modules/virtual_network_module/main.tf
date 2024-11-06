@@ -4,7 +4,7 @@ resource "azurerm_network_security_group" "example" {
   resource_group_name = var.rg_name
 }
 
-resource "azurerm_virtual_network" "example" {
+resource "azurerm_virtual_network" "vnet_1" {
   name                = var.vnet_name
   location            = var.location
   resource_group_name = var.rg_name
