@@ -35,3 +35,12 @@ module "app_service_module" {
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
 }
+
+module "load_balancer_module" {
+  source = "./modules/load_balancer_module"
+  rg_name           = azurerm_resource_group.uo_rg_root.name
+  location          = azurerm_resource_group.uo_rg_root.location
+  lb_name = "load_balancer_01"
+  public_ip_name = "public_ip_01"
+}
+
