@@ -11,6 +11,7 @@ module "virtual_network_module" {
   subnet_name      = "uo-subnet-1"
   address_prefixes = ["10.0.0.0/16"]
   address_space    = ["10.0.2.0/24"]
+  nsg_01_name      = "NSG_01"
 }
 
 module "database_module" {
@@ -35,3 +36,12 @@ module "app_service_module" {
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
 }
+
+module "load_balancer_module" {
+  source         = "./modules/load_balancer_module"
+  rg_name        = azurerm_resource_group.uo_rg_root.name
+  location       = azurerm_resource_group.uo_rg_root.location
+  lb_name        = "load_balancer_01"
+  public_ip_name = "public_ip_01"
+}
+

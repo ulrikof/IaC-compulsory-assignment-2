@@ -18,6 +18,11 @@ variable "subnet_name" {
   description = "Name of the subnet"
 }
 
+variable "nsg_01_name" {
+  type        = string
+  description = "Name of the NSG"
+}
+
 variable "address_space" {
   type        = list(string)
   description = "Address space for the vnet"
@@ -27,3 +32,5 @@ variable "address_prefixes" {
   type        = list(string)
   description = "Address prefixes for the subnet"
 }
+
+
