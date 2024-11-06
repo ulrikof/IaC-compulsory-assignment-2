@@ -9,3 +9,7 @@ output "sa_access_key" {
 output "sc_name" {
   value = azurerm_storage_container.sc.name
 }
+
+output "sb_index_name" {
+  value = azurerm_storage_blob.html_blob.name
+}

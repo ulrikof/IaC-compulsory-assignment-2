@@ -28,12 +28,9 @@ resource "azurerm_linux_web_app" "web_app" {
   service_plan_id     = azurerm_service_plan.service_plan_01.id
 
   site_config {
-
-    application_stack {
-      docker_image_name   = "appsvc/staticsite:latest" # Example image for static site
-      docker_registry_url = "https://index.docker.io"
-    }
-
+  }
+  app_settings = {
+    WEBSITE_RUN_FROM_PACKAGE = "https://${var.sa_name}.blob.core.windows.net/${var.sc_name}/${var.sb_index_name}"
   }
 
   storage_account {
