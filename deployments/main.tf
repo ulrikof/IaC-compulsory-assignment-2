@@ -44,5 +44,3 @@ module "load_balancer_module" {
   lb_name        = "load_balancer_01"
   public_ip_name = "public_ip_01"
 }
-
-# TEst
