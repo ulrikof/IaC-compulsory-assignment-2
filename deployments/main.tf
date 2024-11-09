@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "uo_rg_root" {
 }
 
 module "virtual_network_module" {
-  source           = "./modules/virtual_network_module"
+  source           = "./../modules/virtual_network_module"
   rg_name          = azurerm_resource_group.uo_rg_root.name
   location         = azurerm_resource_group.uo_rg_root.location
   vnet_name        = "uo-vnet-1"
@@ -15,7 +15,7 @@ module "virtual_network_module" {
 }
 
 module "database_module" {
-  source          = "./modules/database_module"
+  source          = "./../modules/database_module"
   rg_name         = azurerm_resource_group.uo_rg_root.name
   location        = azurerm_resource_group.uo_rg_root.location
   sql_server_name = local.sql_server_name
@@ -23,7 +23,7 @@ module "database_module" {
 }
 
 module "storage_account_module" {
-  source       = "./modules/storage_account_module"
+  source       = "./../modules/storage_account_module"
   rg_name      = azurerm_resource_group.uo_rg_root.name
   location     = azurerm_resource_group.uo_rg_root.location
   sa_base_name = "uo1sa01"
@@ -31,17 +31,16 @@ module "storage_account_module" {
 }
 
 module "app_service_module" {
-  source            = "./modules/app_service_module"
+  source            = "./../modules/app_service_module"
   rg_name           = azurerm_resource_group.uo_rg_root.name
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
 }
 
 module "load_balancer_module" {
-  source         = "./modules/load_balancer_module"
+  source         = "./../modules/load_balancer_module"
   rg_name        = azurerm_resource_group.uo_rg_root.name
   location       = azurerm_resource_group.uo_rg_root.location
   lb_name        = "load_balancer_01"
   public_ip_name = "public_ip_01"
 }
-
