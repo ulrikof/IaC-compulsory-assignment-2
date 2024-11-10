@@ -120,7 +120,7 @@ jobs:
 
       # Step 4: Select the default workspace
       - name: Terraform workspace select default
-        run: terraform workspace select prod
+        run: terraform workspace select default
         working-directory: ${{ env.GLOBAL_WORKING_DIR }}
 
       # Step 5: Destroy Terraform resources

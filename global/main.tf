@@ -11,7 +11,6 @@ resource "azurerm_log_analytics_workspace" "global_log_analytics" {
   retention_in_days   = 30
 }
 
-# Example: Shared Key Vault to store secrets for all environments
 resource "azurerm_key_vault" "global_key_vault" {
   name                = "global-key-vault"
   location            = azurerm_resource_group.global_rg.location
