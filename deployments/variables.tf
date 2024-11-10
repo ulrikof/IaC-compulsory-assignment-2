@@ -17,3 +17,8 @@ variable "db_max_gb" {
   type        = number
   description = "Max gb of the database"
 }
+
+variable "service_plan_sku" {
+  type = string
+  description = "sku for the service plan"
+}

@@ -13,3 +13,8 @@ variable "service_plan_name" {
   description = "Name of the service plan"
 }
 
+variable "service_plan_sku" {
+  type        = string
+  description = "sku for the service plan"
+}
+
