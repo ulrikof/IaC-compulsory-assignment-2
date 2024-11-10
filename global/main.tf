@@ -3,6 +3,8 @@ resource "azurerm_resource_group" "global_rg" {
   location = "West Europe"
 }
 
+data "azurerm_client_config" "current" {}
+
 resource "azurerm_log_analytics_workspace" "global_log_analytics" {
   name                = "global-log-analytics"
   location            = azurerm_resource_group.global_rg.location
