@@ -30,8 +30,8 @@ module "storage_account_module" {
   sc_name      = "uo-sc-01"
 }
 
-module "app_service_module" {
-  source            = "./../modules/app_service_module"
+module "linux_service_plan_module" {
+  source            = "../modules/linux_service_plan_module"
   rg_name           = azurerm_resource_group.uo_rg_root.name
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
