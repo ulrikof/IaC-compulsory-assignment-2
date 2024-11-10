@@ -18,8 +18,8 @@ resource "azurerm_mssql_server" "sql_server_1" {
   resource_group_name          = var.rg_name
   location                     = var.location
   version                      = "12.0"
-  administrator_login          = "4dm1n157r470r"
-  administrator_login_password = "4-v3ry-53cr37-p455w0rd"
+  administrator_login          = var.sql_server_admin_login
+  administrator_login_password = var.sql_server_admin_password
 }
 
 resource "azurerm_mssql_database" "sql_database" {
@@ -27,7 +27,7 @@ resource "azurerm_mssql_database" "sql_database" {
   server_id    = azurerm_mssql_server.sql_server_1.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"
-  max_size_gb  = 2
-  sku_name     = "S0"
+  max_size_gb  = var.db_max_gb
+  sku_name     = var.db_sku
   enclave_type = "VBS"
 }

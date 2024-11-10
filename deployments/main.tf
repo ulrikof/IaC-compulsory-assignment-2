@@ -15,11 +15,15 @@ module "virtual_network_module" {
 }
 
 module "database_module" {
-  source               = "./../modules/database_module"
-  rg_name              = azurerm_resource_group.uo_rg_root.name
-  location             = azurerm_resource_group.uo_rg_root.location
-  sql_server_base_name = "uo-sql-server-1"
-  db_base_name         = "uo-db-1"
+  source                    = "./../modules/database_module"
+  rg_name                   = azurerm_resource_group.uo_rg_root.name
+  location                  = azurerm_resource_group.uo_rg_root.location
+  sql_server_base_name      = "uo-sql-server-1"
+  db_base_name              = "uo-db-1"
+  sql_server_admin_login    = var.sql_server_admin_login
+  sql_server_admin_password = var.sql_server_admin_password
+  db_max_gb                 = var.db_max_gb
+  db_sku                    = var.db_sku
 }
 
 module "storage_account_module" {
@@ -35,6 +39,7 @@ module "linux_service_plan_module" {
   rg_name           = azurerm_resource_group.uo_rg_root.name
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
+  service_plan_sku  = var.service_plan_sku
 }
 
 module "load_balancer_module" {

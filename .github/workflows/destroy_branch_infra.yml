@@ -37,7 +37,7 @@ jobs:
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars.dev"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform switch to default workspace

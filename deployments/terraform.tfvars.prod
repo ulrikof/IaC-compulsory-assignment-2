@@ -1,0 +1,6 @@
+sql_server_admin_login    = "dev-4dmin"
+sql_server_admin_password = "pr0d-4-V3ry-53cr3T-P455w0rd!"
+db_max_gb                 = 2
+db_sku                    = "S0"
+
+service_plan_sku = "B2"

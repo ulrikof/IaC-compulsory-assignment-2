@@ -50,10 +50,11 @@ jobs:
       - name: Terraform workspace select or create dev
         run: terraform workspace select -or-create dev
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
+
       # Step 5: Apply Terraform changes
       - name: Terraform apply dev
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file="terraform.tfvars.dev"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   deploy_stage:
@@ -66,7 +67,7 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6 # Specify the desired version of Terraform
+          terraform_version: 1.9.8
 
       # Step 3: Initialize Terraform
       - name: Terraform init
@@ -78,10 +79,11 @@ jobs:
       - name: Terraform workspace select or create stage
         run: terraform workspace select -or-create stage
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
+
       # Step 5: Apply Terraform changes
       - name: Terraform apply stage
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file="terraform.tfvars.staging"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   deploy_prod:
@@ -94,7 +96,7 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6 # Specify the desired version of Terraform
+          terraform_version: 1.9.8
 
       # Step 3: Initialize Terraform
       - name: Terraform init
@@ -110,7 +112,7 @@ jobs:
       # Step 5: Apply Terraform changes
       - name: Terraform apply prod
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file="terraform.tfvars.prod"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   deploy_global:
@@ -123,7 +125,7 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6 # Specify the desired version of Terraform
+          terraform_version: 1.9.8
 
       # Step 3: Initialize Terraform
       - name: Terraform init
