@@ -33,7 +33,7 @@ jobs:
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform workspace select
-        run: terraform workspace select -or-create dev-${{ github.ref_name }}
+        run: terraform workspace select -or-create dev-${{ github.head_ref }}
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform destroy
