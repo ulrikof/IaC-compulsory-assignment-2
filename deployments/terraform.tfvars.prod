@@ -1,4 +1,4 @@
 sql_server_admin_login = "dev-4dmin"
-sql_server_admin_password = "dev-p4ssword"
+sql_server_admin_password = "dev-4-v3ry-53cr37-p455w0rd"
 db_max_gb = 2
 db_sku = "S0"
