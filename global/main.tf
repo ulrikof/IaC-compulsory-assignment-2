@@ -16,7 +16,7 @@ resource "azurerm_log_analytics_workspace" "global_log_analytics" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "key_vault" {
-  name                     = "global-key-vault"
+  name                     = "uo-global-key-vault"
   location                 = azurerm_resource_group.global_rg.location
   resource_group_name      = azurerm_resource_group.global_rg.name
   tenant_id                = data.azurerm_client_config.current.tenant_id
