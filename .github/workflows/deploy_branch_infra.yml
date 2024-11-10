@@ -13,7 +13,7 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  WORKING_DIR: ./deployments/
+  DEPLOY_WORKING_DIR: ./deployments/
 
 jobs:
   lint:
@@ -40,12 +40,12 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform workspace select or create
         run: terraform workspace select -or-create dev-${{ github.ref_name }}
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform apply
         run: terraform apply -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}

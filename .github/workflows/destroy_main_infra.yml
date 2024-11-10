@@ -9,7 +9,8 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  WORKING_DIR: ./deployments/
+  DEPLOY_WORKING_DIR: ./deployments/
+  GLOBAL_WORKING_DIR: ./global/
 
 jobs:
   destroy_dev:
@@ -28,18 +29,18 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       # Step 4: Select the dev workspace
       - name: Terraform workspace select dev
         run: terraform workspace select dev
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       # Step 5: Destroy Terraform resources
       - name: Terraform destroy dev
         id: destroy
         run: terraform destroy -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   destroy_stage:
     runs-on: ubuntu-latest
@@ -57,18 +58,18 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       # Step 4: Select the stage workspace
       - name: Terraform workspace select stage
         run: terraform workspace select stage
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       # Step 5: Destroy Terraform resources
       - name: Terraform destroy stage
         id: destroy
         run: terraform destroy -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   destroy_prod:
     runs-on: ubuntu-latest
@@ -86,15 +87,44 @@ jobs:
       - name: Terraform init
         id: init
         run: terraform init
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       # Step 4: Select the prod workspace
       - name: Terraform workspace select prod
         run: terraform workspace select prod
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       # Step 5: Destroy Terraform resources
       - name: Terraform destroy prod
         id: destroy
         run: terraform destroy -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
+
+  destroy_global:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      # Step 2: Install Terraform
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6
+
+      # Step 3: Initialize Terraform
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: ${{ env.GLOBAL_WORKING_DIR }}
+
+      # Step 4: Select the default workspace
+      - name: Terraform workspace select default
+        run: terraform workspace select prod
+        working-directory: ${{ env.GLOBAL_WORKING_DIR }}
+
+      # Step 5: Destroy Terraform resources
+      - name: Terraform destroy global
+        id: destroy
+        run: terraform destroy -auto-approve
+        working-directory: ${{ env.GLOBAL_WORKING_DIR }}
