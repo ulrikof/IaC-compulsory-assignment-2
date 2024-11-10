@@ -7,7 +7,6 @@ terraform {
   }
 }
 
-# Random string used added to the name of sa_01 to make a valid name
 resource "random_string" "random_string" {
   length  = 8
   special = false
