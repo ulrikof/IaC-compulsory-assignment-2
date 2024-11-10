@@ -39,7 +39,7 @@ jobs:
       # Step 5: Destroy Terraform resources
       - name: Terraform destroy dev
         id: destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars.dev"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   destroy_stage:
@@ -68,7 +68,7 @@ jobs:
       # Step 5: Destroy Terraform resources
       - name: Terraform destroy stage
         id: destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars.staging"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   destroy_prod:
@@ -97,7 +97,7 @@ jobs:
       # Step 5: Destroy Terraform resources
       - name: Terraform destroy prod
         id: destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars.prod "
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   destroy_global:
