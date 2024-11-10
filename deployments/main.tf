@@ -15,11 +15,11 @@ module "virtual_network_module" {
 }
 
 module "database_module" {
-  source          = "./../modules/database_module"
-  rg_name         = azurerm_resource_group.uo_rg_root.name
-  location        = azurerm_resource_group.uo_rg_root.location
-  sql_server_name = local.sql_server_name
-  db_name         = local.db_name
+  source               = "./../modules/database_module"
+  rg_name              = azurerm_resource_group.uo_rg_root.name
+  location             = azurerm_resource_group.uo_rg_root.location
+  sql_server_base_name = "uo-sql-server-1"
+  db_base_name         = "uo-db-1"
 }
 
 module "storage_account_module" {
