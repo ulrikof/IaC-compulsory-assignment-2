@@ -134,7 +134,7 @@ jobs:
       # Step 4: Select or create the prod workspace
       - name: Terraform workspace select default
         run: terraform workspace select default
-        working-directory: ${{ env.DEPLOY_WORKING_DIR }}
+        working-directory: ${{ env.GLOBAL_WORKING_DIR }}
 
       # Step 5: Apply Terraform changes
       - name: Terraform apply global
