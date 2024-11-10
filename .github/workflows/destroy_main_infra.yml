@@ -1,6 +1,5 @@
 name: Destroy main infrastructure
 
-# Controls when the workflow will run
 on:
   workflow_dispatch:
 
@@ -19,24 +18,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
-      # Step 2: Install Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.9.8
 
-      # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
-      # Step 4: Select the dev workspace
       - name: Terraform workspace select dev
         run: terraform workspace select dev
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
       - name: Terraform destroy dev
         id: destroy
         run: terraform destroy -auto-approve -var-file="terraform.tfvars.dev"
@@ -48,24 +43,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
-      # Step 2: Install Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.6
 
-      # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
-      # Step 4: Select the stage workspace
       - name: Terraform workspace select stage
         run: terraform workspace select stage
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
       - name: Terraform destroy stage
         id: destroy
         run: terraform destroy -auto-approve -var-file="terraform.tfvars.staging"
@@ -77,24 +68,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
-      # Step 2: Install Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.6
 
-      # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
-      # Step 4: Select the prod workspace
       - name: Terraform workspace select prod
         run: terraform workspace select prod
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
       - name: Terraform destroy prod
         id: destroy
         run: terraform destroy -auto-approve -var-file="terraform.tfvars.prod "
@@ -106,24 +93,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
-      # Step 2: Install Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.6
 
-      # Step 3: Initialize Terraform
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ${{ env.GLOBAL_WORKING_DIR }}
 
-      # Step 4: Select the default workspace
       - name: Terraform workspace select default
         run: terraform workspace select default
         working-directory: ${{ env.GLOBAL_WORKING_DIR }}
 
-      # Step 5: Destroy Terraform resources
       - name: Terraform destroy global
         id: destroy
         run: terraform destroy -auto-approve

@@ -33,11 +33,11 @@ jobs:
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform workspace select
-        run: terraform workspace select -or-create dev-${{ github.head_ref }}
+        run: terraform workspace select -or-create dev-${{ github.head_ref }} # Creates the workspace name: dev-[branch-name]
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform destroy
-        run: terraform destroy -auto-approve -var-file="terraform.tfvars.dev"
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars.dev" # Delete with the dev tfvars file
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform switch to default workspace

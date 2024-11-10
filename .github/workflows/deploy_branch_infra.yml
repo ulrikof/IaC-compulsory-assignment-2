@@ -26,7 +26,7 @@ jobs:
   tfsec:
     uses: ./.github/workflows/tfsec.yml # Call the reusable tfsec workflow
   deploy_branch:
-    needs: [lint, tfsec]
+    needs: [lint, tfsec] # Only run when the lint and tfsec workflows have passed
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,9 +43,9 @@ jobs:
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform workspace select or create
-        run: terraform workspace select -or-create dev-${{ github.ref_name }}
+        run: terraform workspace select -or-create dev-${{ github.ref_name }} # Creates the workspace name: dev-[branch-name]
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform apply
-        run: terraform apply -auto-approve -var-file="terraform.tfvars.dev"
+        run: terraform apply -auto-approve -var-file="terraform.tfvars.dev" # Apply with the dev tfvars file
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
