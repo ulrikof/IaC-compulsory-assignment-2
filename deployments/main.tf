@@ -39,7 +39,7 @@ module "linux_service_plan_module" {
   rg_name           = azurerm_resource_group.uo_rg_root.name
   location          = azurerm_resource_group.uo_rg_root.location
   service_plan_name = "service_plan_01"
-  service_plan_sku = var.service_plan_sku
+  service_plan_sku  = var.service_plan_sku
 }
 
 module "load_balancer_module" {

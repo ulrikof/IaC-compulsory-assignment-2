@@ -19,6 +19,6 @@ variable "db_max_gb" {
 }
 
 variable "service_plan_sku" {
-  type = string
+  type        = string
   description = "sku for the service plan"
 }
