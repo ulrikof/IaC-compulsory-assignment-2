@@ -109,6 +109,13 @@ jobs:
   deploy_prod:
     needs: deploy_stage # Run after the stage infra has been updated
     runs-on: ubuntu-latest
+
+    # The following two lines would be used to create a manuall check before updating the prod enviroment.
+    # However, this is commented out since using environments is only available in public repositories.
+
+    #environment:
+    #  name: production
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
