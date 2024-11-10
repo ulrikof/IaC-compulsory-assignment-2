@@ -9,10 +9,8 @@ jobs:
     name: "Security Check"
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under so your job can access it
       - uses: actions/checkout@master
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
-          # Space separated args specified here will be added during tfsec execution.
-          additional_args: -m CRITICAL
+          additional_args: -m CRITICAL # This runs tfsec in a way that only warns about critical security warnings. Usefull for a project like this where we are mostly testing.

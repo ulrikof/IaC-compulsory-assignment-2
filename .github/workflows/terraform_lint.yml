@@ -1,7 +1,7 @@
 name: Terraform validate and format check
 
 on:
-  workflow_call: # Makes the workflow reusable
+  workflow_call: # Make the workflow callable by other workflows
     secrets:
       AZURE_CLIENT_ID: {}
       AZURE_CLIENT_SECRET: {}
@@ -18,28 +18,23 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       WORKING_DIR: ./deployments/
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
-      # Step 2: Install Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.9.8
 
-      # Step 3: Initialize Terraform
       - name: Terraform init
         run: terraform init
         working-directory: ${{ env.WORKING_DIR }}
 
-      # Step 4: Check Terraform format
       - name: Terraform fmt check
         run: terraform fmt -check -recursive
         continue-on-error: false
         working-directory: ${{ env.WORKING_DIR }}
 
-      # Step 5: Validate Terraform code
       - name: Terraform validate
         run: terraform validate
         working-directory: ${{ env.WORKING_DIR }}
