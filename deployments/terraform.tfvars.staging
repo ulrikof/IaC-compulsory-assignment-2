@@ -1,0 +1,4 @@
+sql_server_admin_login = "staging-4dmin"
+sql_server_admin_password = "staging-p4ssword"
+db_max_gb = 2
+db_sku = "S0"

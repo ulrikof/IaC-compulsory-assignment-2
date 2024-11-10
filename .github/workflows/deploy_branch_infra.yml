@@ -47,5 +47,5 @@ jobs:
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
       - name: Terraform apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file="terraform.tfvars.dev"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}

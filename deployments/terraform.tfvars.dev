@@ -1,0 +1,4 @@
+sql_server_admin_login = "dev-4dmin"
+sql_server_admin_password = "dev-p4ssword"
+db_max_gb = 1
+db_sku = "Basic"
