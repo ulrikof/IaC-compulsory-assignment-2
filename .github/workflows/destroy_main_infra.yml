@@ -84,7 +84,7 @@ jobs:
 
       - name: Terraform destroy prod
         id: destroy
-        run: terraform destroy -auto-approve -var-file="terraform.tfvars.prod "
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars.prod"
         working-directory: ${{ env.DEPLOY_WORKING_DIR }}
 
   destroy_global:
