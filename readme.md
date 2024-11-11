@@ -4,7 +4,7 @@ I have created a fully working CI/CD system with GitHub workflows.
 
 ## CI
 
-To do this i have created to CI workflows: terraform_lint.yml and tfsec.yml. Both of these workflows are callable, meaning that other workflows can call them before running. This is crucial to ensure a fully working CI/CD system.
+To do this i have created two CI workflows: terraform_lint.yml and tfsec.yml. Both of these workflows are callable, meaning that other workflows can call them before running. This is crucial to ensure a fully working CI/CD system.
 
 ### tfsec
 
@@ -12,11 +12,11 @@ This workflow runs tfsec, a program that automatically checks for security vulne
 
 ### terraform lint
 
-This workflows runs terraform format check on all files, which will fail if it discovers some bad formatting. It also runs terraform validate to catch syntax error in my code. This helps catching potential errors before they are applied to the actual infrastructure.
+This workflows runs terraform format check on all files, which will fail if it discovers some bad formatting. It also runs terraform validate to catch syntax errors in my code. This helps catching potential errors before they are applied to the actual infrastructure.
 
 ## CD
 
-Here i have the developed two types of workflows.
+Here i have developed two types of deployment workflows.
 
 ### deploy_main_infra & destroy_main_infra
 
@@ -30,7 +30,7 @@ The destroy_main_infra is a manually callable workflow that deletes all the reso
 
 These workflows are what i have used the most time on. They are pretty unique as far as i know, and was created sine it was something i thought could be interesting.
 
-The general concept here is that when someone commits something to a branch, the deploy_branch_infra workflow automatically creates a workspace with the same name as the branch with a "dev-" prefix, and then deploys the infrastructure in deployment in this workspace. This has some major benefits. Firstly, it ensures a single source of truth on an even deeper level. This is since we are now sure that the state of development infra from a branch is the exact same as the code in the branch, and not some local files somewhere. This also means that one newer needs to run "terraform init" and terraform apply locally, as this is automatically done. Secondly, it ensures a predictable way of working in different branches at the same time. When doing this locally, one can for instance deploy infrastructure in the same workspace, and this could cause issues. Lastly, since we can call the tfsec and terraform lint workflows before we run this one, we lower the chances of errors in deployment caused by simple errors. The one downside to this is that it can become rather expensive if one has a very large infrastructure and a lot of active branches. This is especially true if the branches have a long lifespan.
+The general concept here is that when someone commits something to a branch, the deploy_branch_infra workflow automatically creates a workspace with the same name as the branch with a "dev-" prefix, and then deploys the infrastructure in deployment in this workspace. This has some major benefits. Firstly, it ensures a single source of truth on an even deeper level. This is since we are now sure that the state of development infra from a branch is the exact same as the code in the branch, and not some local files somewhere. This also means that one never needs to run "terraform init" and "terraform apply" locally, as this is automatically done. Secondly, it ensures a predictable way of working in different branches at the same time. When doing this locally, one can for instance deploy infrastructure in the same workspace, and this could cause issues with the states and the root resource groups. Lastly, since we can call the tfsec and terraform lint workflows before we run this one, we lower the chances of errors in deployment caused by simple errors. The one downside to this is that it can become rather expensive if one has a very large infrastructure and a lot of active branches. This is especially true if the branches have a long lifespan.
 
 The destroy_branch_infra is called when a branch is merged into main, and then destroy the infrastructure related to this branch. This gives the branch infrastructure a very nice lifecycle where it is updated on each commit, and when we are satisfied with the changes in the branch, it is then in a way pulled into the main infrastructure and replaces this. This gives a very predictable way of working with infrastructure in branches, and I have felt that is has worked very well for me during this assignment.
 
